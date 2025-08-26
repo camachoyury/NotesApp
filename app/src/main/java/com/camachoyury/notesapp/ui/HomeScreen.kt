@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,49 +22,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.camachoyury.notesapp.ui.data.Note
 import com.camachoyury.notesapp.ui.theme.*
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onNoteClick: (Note) -> Unit = {},
+    onAddNoteClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
+    onInfoClick: () -> Unit = {}
+) {
     val notes = remember {
-        listOf(
-            Note(
-                id = "1",
-                title = "UI concepts worth exsisting",
-                backgroundColor = NoteCardPurple,
-                textColor = TextBlack
-            ),
-            Note(
-                id = "2",
-                title = "Book Review : The Design of Everyday Things by Don Norman",
-                backgroundColor = NoteCardPink,
-                textColor = TextBlack
-            ),
-            Note(
-                id = "3",
-                title = "Animes produced by Ufotable",
-                backgroundColor = NoteCardGreen,
-                textColor = TextBlack
-            ),
-            Note(
-                id = "4",
-                title = "Mangas planned to read",
-                backgroundColor = NoteCardYellow,
-                textColor = TextBlack
-            ),
-            Note(
-                id = "5",
-                title = "Awesome tweets collection",
-                backgroundColor = NoteCardCyan,
-                textColor = TextBlack
-            ),
-            Note(
-                id = "6",
-                title = "List of free & open source apps",
-                backgroundColor = NoteCardBlue,
-                textColor = TextBlack
-            )
-        )
+        getSampleNotesForHomeScreen()
     }
 
     Box(
@@ -97,7 +65,7 @@ fun HomeScreen() {
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     IconButton(
-                        onClick = { /* TODO: Handle search */ },
+                        onClick = onSearchClick,
                         modifier = Modifier
                             .size(50.dp)
                             .clip(RoundedCornerShape(15.dp))
@@ -112,7 +80,7 @@ fun HomeScreen() {
                     }
 
                     IconButton(
-                        onClick = { /* TODO: Handle info */ },
+                        onClick = onInfoClick,
                         modifier = Modifier
                             .size(50.dp)
                             .clip(RoundedCornerShape(15.dp))
@@ -141,7 +109,7 @@ fun HomeScreen() {
                 items(notes) { note ->
                     NoteCard(
                         note = note,
-                        onClick = { /* TODO: Handle note click */ }
+                        onClick = { onNoteClick(note) }
                     )
                 }
             }
@@ -149,7 +117,7 @@ fun HomeScreen() {
 
         // Floating Add Button
         FloatingActionButton(
-            onClick = { /* TODO: Handle add note */ },
+            onClick = onAddNoteClick,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(24.dp),
@@ -198,6 +166,71 @@ fun NoteCard(
             )
         }
     }
+}
+
+private fun getSampleNotesForHomeScreen(): List<Note> {
+    return listOf(
+        Note(
+            id = "1",
+            title = "UI concepts worth existing",
+            content = "Collection of innovative UI design patterns and concepts that have proven to enhance user experience.",
+            backgroundColor = NoteCardPurple,
+            textColor = TextBlack,
+            createdAt = LocalDateTime.now().minusDays(5),
+            updatedAt = LocalDateTime.now().minusDays(2),
+            category = "Design"
+        ),
+        Note(
+            id = "2",
+            title = "Book Review: The Design of Everyday Things by Don Norman",
+            content = "An essential read for anyone interested in design and user experience.",
+            backgroundColor = NoteCardPink,
+            textColor = TextBlack,
+            createdAt = LocalDateTime.now().minusDays(10),
+            updatedAt = LocalDateTime.now().minusDays(1),
+            category = "Books"
+        ),
+        Note(
+            id = "3",
+            title = "Animes produced by Ufotable",
+            content = "Ufotable is renowned for their exceptional animation quality.",
+            backgroundColor = NoteCardGreen,
+            textColor = TextBlack,
+            createdAt = LocalDateTime.now().minusDays(7),
+            updatedAt = LocalDateTime.now().minusDays(3),
+            category = "Anime"
+        ),
+        Note(
+            id = "4",
+            title = "Mangas planned to read",
+            content = "Reading list for upcoming manga adventures.",
+            backgroundColor = NoteCardYellow,
+            textColor = TextBlack,
+            createdAt = LocalDateTime.now().minusDays(3),
+            updatedAt = LocalDateTime.now().minusHours(12),
+            category = "Manga"
+        ),
+        Note(
+            id = "5",
+            title = "Awesome tweets collection",
+            content = "Curated collection of insightful and inspiring tweets.",
+            backgroundColor = NoteCardCyan,
+            textColor = TextBlack,
+            createdAt = LocalDateTime.now().minusDays(1),
+            updatedAt = LocalDateTime.now().minusHours(6),
+            category = "Social"
+        ),
+        Note(
+            id = "6",
+            title = "List of free & open source apps",
+            content = "Amazing free and open source applications worth exploring.",
+            backgroundColor = NoteCardBlue,
+            textColor = TextBlack,
+            createdAt = LocalDateTime.now().minusDays(14),
+            updatedAt = LocalDateTime.now().minusDays(1),
+            category = "Development"
+        )
+    )
 }
 
 @Preview(showBackground = true, showSystemUi = true)
