@@ -236,13 +236,12 @@ fun AddEditNoteScreen(
                     ) {
                         items(categoryOptions) { categoryOption ->
                             FilterChip(
+                                selected = category == categoryOption,
                                 onClick = {
                                     category =
                                         if (category == categoryOption) "" else categoryOption
                                 },
                                 label = { Text(categoryOption) },
-                                selected = category == categoryOption,
-                                enabled = true,
                                 colors = FilterChipDefaults.filterChipColors(
                                     containerColor = Color.Transparent,
                                     selectedContainerColor = TextBlack.copy(alpha = 0.2f),
@@ -250,10 +249,8 @@ fun AddEditNoteScreen(
                                     selectedLabelColor = TextBlack
                                 ),
                                 border = FilterChipDefaults.filterChipBorder(
-                                    borderColor = TextBlack.copy(alpha = 0.3f),
-                                    selectedBorderColor = TextBlack.copy(alpha = 0.5f),
-                                    borderWidth = 1.dp,
-                                    selectedBorderWidth = 2.dp
+                                    enabled = true,
+                                    selected = category == categoryOption
                                 )
                             )
                         }
